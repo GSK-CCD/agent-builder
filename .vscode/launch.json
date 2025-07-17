@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Main",
+            "type": "debugpy",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/PROJECT_NAME/main.py",
+            "console": "integratedTerminal",
+            "args": []
+        }
+    ]
+}
