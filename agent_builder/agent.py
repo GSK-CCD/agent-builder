@@ -1,10 +1,10 @@
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
 from openai import AsyncAzureOpenAI, AzureOpenAI
 from openai._types import NOT_GIVEN, NotGiven
 from openai.types.chat.chat_completion import ChatCompletion
 from openai.types.chat.parsed_chat_completion import ParsedChatCompletion
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from agent_builder.prompt import Prompt
 
@@ -88,21 +88,3 @@ class AgentNode:
         if response_content is None:
             raise ValueError(f"No response_content found: '{response_content}'")
         return response_content
-
-
-class NameMapping(BaseModel):
-    original_name: str = Field(description="The original name of the speaker in the transcription.")
-    corrected_name: str = Field(
-        description="The correct name of the speaker in the transcription, as determined based on the context of the transcription text. If the name could not be determined, the original name is used."
-    )
-
-
-class NameMapOutput(BaseModel):
-    names: List[NameMapping] = Field(
-        description="A list of objects which help to map original names to corrected names."
-    )
-
-
-def summarization_agent(summarization_prompt: Prompt, input_text: str) -> AgentNode:
-    summarization_agent = AgentNode("gpt-4o", summarization_prompt, {"text": input_text}, 0.0, NameMapOutput)
-    return summarization_agent
