@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Any, Callable, Coroutine, Optional, Union
 
 from openai import AsyncAzureOpenAI, AzureOpenAI
 from openai._types import NOT_GIVEN, NotGiven
@@ -14,8 +14,11 @@ class AgentNode:
         self,
         model: str,
         prompt: Prompt,
+        api_version: str,
+        azure_endpoint: str,
         user_prompt_injection: dict,
         temperature: float,
+        token_provider: Optional[Union[Callable[[], Coroutine[Any, Any, str]], Callable[[], str]]] = None,
         output_format: Optional[Any] = None,
         system_prompt_injection: Optional[dict] = None,
     ):
@@ -25,6 +28,9 @@ class AgentNode:
         self.system_prompt_injection = system_prompt_injection
         self.temperature = temperature
         self.output_format = NOT_GIVEN if output_format is None else output_format
+        self.api_version = api_version
+        self.azure_endpoint = azure_endpoint
+        self.token_provider = token_provider
 
     def get_system_message(self):
         if self.system_prompt_injection is None:
