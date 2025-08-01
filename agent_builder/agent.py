@@ -50,7 +50,7 @@ class AgentNode:
         ]
 
     def run(self):
-        client = AzureOpenAI()
+        client = AzureOpenAI(api_version=self.api_version, azure_endpoint=self.azure_endpoint, azure_ad_token_provider=self.token_provider)
         if isinstance(self.output_format, NotGiven) or isinstance(self.output_format, dict):
             response = client.chat.completions.create(
                 model=self.model,
@@ -70,7 +70,7 @@ class AgentNode:
         return self.extract_response_content(response)
 
     async def arun(self):
-        client = AsyncAzureOpenAI()
+        client = AsyncAzureOpenAI(api_version=self.api_version, azure_endpoint=self.azure_endpoint, azure_ad_token_provider=self.token_provider)
         if isinstance(self.output_format, NotGiven) or isinstance(self.output_format, dict):
             response = await client.chat.completions.create(
                 model=self.model,
